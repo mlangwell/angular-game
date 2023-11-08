@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ContentChildren, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef, inject } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ContentChildren, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef, inject } from '@angular/core';
 import { TargetComponent } from '../target/target.component';
 import { Observable, Subject, map, takeUntil, timer } from 'rxjs';
 import { AppService } from '../app.service';
@@ -14,13 +14,15 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
   subject: Subject<boolean> = new Subject();
   score: number = 0;
   roundTimer$: Observable<number> = timer(0, 1000).pipe(map((value) => (value - 30) * -1));
-  spawnTimer$: Observable<number> = timer(500, 500);
+  spawnTimer$: Observable<number> = timer(500, 333);
   accuracy!: number;
   targetCount: number = 0;
   startHeight!: number;
   startWidth!: number;
+  targetSize: number = 100
+  toolbarSize: number = 80;
 
-  constructor(private _appService: AppService, private _router: Router) {
+  constructor(private _appService: AppService, private _router: Router, private _el: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -51,16 +53,16 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private _calculateSpace() {
-    this.startHeight = document.getElementById('start')?.offsetHeight ?? 0;
-    this.startWidth = document.getElementById('start')?.offsetWidth ?? 0;
-    this.startHeight -= 80;
-    this.startWidth -= 80;
+    this.startHeight = this._el.nativeElement.offsetHeight;
+    this.startWidth = this._el.nativeElement.offsetWidth;
+    this.startHeight -= this.targetSize;
+    this.startWidth -= this.targetSize;
   }
 
   private _spawn() {
     this.spawnTimer$.pipe(takeUntil(this.subject)).subscribe(() => {
       const compRef = this.vcr.createComponent(TargetComponent);
-      compRef.location.nativeElement.style.top = `${Math.random() * this.startHeight}px`;
+      compRef.location.nativeElement.style.top = `${(Math.random() * this.startHeight) + this.toolbarSize}px`;
       compRef.location.nativeElement.style.left = `${Math.random() * this.startWidth}px`;
       compRef.changeDetectorRef.detectChanges();
     });

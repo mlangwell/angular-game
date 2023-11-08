@@ -1,3 +1,8 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
 button {
     min-height: 5rem;
     min-width: 15rem;
@@ -11,6 +16,9 @@ button {
 
 .menu-text {
     font-size: 2rem;
+    line-height: 100%;
     color: white;
     margin-bottom: 2rem;
+    max-width: 75%;
+    align-self: center;
 }
