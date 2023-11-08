@@ -1,6 +1,6 @@
-import { NumberSymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { Point } from './interfaces/point';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class AppService {
   clicks: number = 0;
   onTargetClicks: number = 0;
   accuracySub$: BehaviorSubject<number> = new BehaviorSubject(100);
+  removedLocation$: Subject<Point> = new Subject();
 
   constructor() { }
 
@@ -37,5 +38,9 @@ export class AppService {
     this.onTargetClicks = 0;
     this.accuracySub$.next(100);
     this.scoreSub$.next(0);
+  }
+
+  removeTarget(location: Point): void {
+    this.removedLocation$.next(location);
   }
 }

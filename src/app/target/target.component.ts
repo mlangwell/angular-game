@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { take, timer } from 'rxjs';
+import { Point } from '../interfaces/point';
 
 @Component({
   selector: 'app-target',
@@ -8,9 +9,11 @@ import { take, timer } from 'rxjs';
   styleUrls: ['./target.component.scss']
 })
 export class TargetComponent implements OnInit {
+  @Input() location!: Point;
+
   @HostListener('click', ['$event.target'])
   onClick(btn: HTMLElement) {
-    this._elRef.nativeElement.remove();
+    this.remove();
     this._appService.addScore();
   }
 
@@ -18,6 +21,13 @@ export class TargetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    timer(3000).pipe(take(1)).subscribe(() => this._elRef.nativeElement.remove())
+    timer(3000).pipe(take(1)).subscribe(() => this.remove())
+  }
+
+  remove(): void {
+    // console.log('removing target:', this.location);
+
+    this._appService.removeTarget(this.location);
+    this._elRef.nativeElement.remove();
   }
 }
