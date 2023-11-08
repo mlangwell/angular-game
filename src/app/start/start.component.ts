@@ -4,6 +4,7 @@ import { Observable, Subject, map, take, takeUntil, timer } from 'rxjs';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
 import { Point } from '../interfaces/point';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 
 @Component({
   selector: 'app-start',
@@ -25,7 +26,7 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
   toolbarSize: number = 80;
   existingLocations: Array<Point> = new Array<Point>();
 
-  constructor(private _appService: AppService, private _router: Router, private _el: ElementRef) {
+  constructor(private _appService: AppService, private _router: Router, private _el: ElementRef, private responsive: BreakpointObserver) {
   }
 
   ngOnInit(): void {
@@ -39,6 +40,13 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
     this.roundTimer$.pipe(takeUntil(this.subject)).subscribe((value: number) => {
       if (value <= 0) {
         this._router.navigate(['end']);
+      }
+    });
+
+    //breakpoints management
+    this.responsive.observe(Breakpoints.XSmall).subscribe(result => {
+      if (result.matches) {
+        this.targetSize = 50;
       }
     });
   }
@@ -67,14 +75,10 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
 
   private _spawn() {
     this.spawnTimer$.pipe(takeUntil(this.subject)).subscribe(() => {
-      let newPos!: Point;
-
-      let isSpawnable: boolean = false;
-      while (!isSpawnable) {
-        newPos = this.calculatePosition();
-        //console.log(`determinig existance`, newPos);
-        isSpawnable = !this.determineExistance(newPos, this.existingLocations);
-        //console.log(`determinig spawnable`, isSpawnable);
+      const newPos: Point = this.calculatePosition();
+      const alreadyExists = this.determineExistance(newPos, this.existingLocations);
+      if (alreadyExists) {
+        newPos.y += this.targetSize;
       }
 
       const compRef = this.vcr.createComponent(TargetComponent);
@@ -97,6 +101,9 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
 
     //iterate over existing locations
     for (let i = 0; i < existingLocations.length; i++) {
+      // check whether the existing locations y already exists in the range
+      let doesXExist: boolean = this.checkExistanceInRange(existingLocations[i].x, newPos.x, 25);
+
       // check whether the existing locations y already exists in the range
       let doesYExist: boolean = this.checkExistanceInRange(existingLocations[i].y, newPos.y, 25);
 
