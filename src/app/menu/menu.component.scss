@@ -1,0 +1,16 @@
+button {
+    min-height: 5rem;
+    min-width: 15rem;
+    max-width: 15rem;
+    align-self: center;
+
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}
+
+.menu-text {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,49 @@
+:host {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+#start {
+    height: 100%;
+    width: 100%;
+}
+
+.score {
+    position: absolute;
+    top: 25px;
+    left: 50px;
+    color: white;
+    font-size: 3rem;
+}
+
+.timer {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 5rem;
+}
+
+.alert {
+    color: red !important;
+}
+
+.warning {
+    color: yellow !important;
+}
+
+.accuracy {
+    position: absolute;
+    top: 75px;
+    left: 50px;
+    color: white;
+    font-size: 3rem;
+}
+
+.exit {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}

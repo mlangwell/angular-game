@@ -1,0 +1,8 @@
+<div id="start" class="container">
+    <div class="score">
+        Score: {{score}}
+    </div>
+    <div class="timer" [ngClass]="(roundTimer$ | async)! <= 20 ? 'warning' : (roundTimer$ | async)! <= 10 ? 'alert' : ''">Timer: {{roundTimer$ | async}}</div>
+    <div class="accuracy">Accuracy: {{accuracy}}</div>
+    <button class="exit" mat-raised-button color="warn" [routerLink]="''">Exit</button>
+</div>
