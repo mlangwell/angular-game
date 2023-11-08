@@ -35,6 +35,13 @@
     }
 }
 
+@media (max-width:320px) {
+    .target {
+        height: 50px;
+        width: 50px;
+    }
+}
+
 @keyframes fade {
 
     0%,
