@@ -13,7 +13,7 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
   vcr: ViewContainerRef = inject(ViewContainerRef);
   subject: Subject<boolean> = new Subject();
   score: number = 0;
-  roundTimer$: Observable<number> = timer(3250, 1000).pipe(map((value) => (value - 30) * -1), take(30));
+  roundTimer$: Observable<number> = timer(3250, 1000).pipe(map((value) => (value - 30) * -1));
   spawnTimer$: Observable<number> = timer(3250, 250);
   countdown$: Observable<number> = timer(250, 1000).pipe(map(x => 3 - x), take(4));
   accuracy!: number;
