@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, ContentChildren, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef, inject } from '@angular/core';
 import { TargetComponent } from '../target/target.component';
-import { Observable, Subject, map, takeUntil, timer } from 'rxjs';
+import { Observable, Subject, map, take, takeUntil, timer } from 'rxjs';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
 
@@ -13,8 +13,9 @@ export class StartComponent implements AfterViewInit, OnDestroy, OnInit {
   vcr: ViewContainerRef = inject(ViewContainerRef);
   subject: Subject<boolean> = new Subject();
   score: number = 0;
-  roundTimer$: Observable<number> = timer(0, 1000).pipe(map((value) => (value - 30) * -1));
-  spawnTimer$: Observable<number> = timer(500, 333);
+  roundTimer$: Observable<number> = timer(3250, 1000).pipe(map((value) => (value - 30) * -1), take(30));
+  spawnTimer$: Observable<number> = timer(3250, 250);
+  countdown$: Observable<number> = timer(250, 1000).pipe(map(x => 3 - x), take(4));
   accuracy!: number;
   targetCount: number = 0;
   startHeight!: number;

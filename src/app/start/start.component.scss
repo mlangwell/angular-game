@@ -51,3 +51,12 @@
     color: white;
     font-size: 2rem;
 }
+
+.count-down {
+    font-size: 5rem;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

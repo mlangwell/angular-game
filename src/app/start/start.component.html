@@ -6,4 +6,5 @@
     <div class="spacer"></div>
     <button class="exit" mat-raised-button color="warn" [routerLink]="''">Exit</button>
 </div>
-<div class="timer" [ngClass]="(roundTimer$ | async)! <= 20 ? 'warning' : (roundTimer$ | async)! <= 10 ? 'danger' : ''">Timer: {{roundTimer$ | async}}</div>
+<div class="timer" [ngClass]="{danger: (roundTimer$ | async)! <= 10}">Timer: {{roundTimer$ | async}}</div>
+<div class="count-down" *ngIf="(countdown$ | async)! > 0">{{countdown$ | async}}</div>
