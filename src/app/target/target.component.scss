@@ -4,6 +4,7 @@
 }
 
 .target {
+    opacity: 1;
     border-radius: 50%;
     background-color: red;
     height: 100px;
@@ -11,6 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: fade 3s linear;
 
     & &-white {
         height: 80%;
@@ -30,5 +32,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+}
+
+@keyframes fade {
+
+    0%,
+    100% {
+        opacity: 0
+    }
+
+    50% {
+        opacity: 1
     }
 }
